@@ -13,21 +13,33 @@ afterAll(async () => {
     driver.quit()
 })
 
-test('Title shows up when page loads', async () => {
-    const title = await driver.findElement(By.id('title'))
-    const displayed = await title.isDisplayed()
-    expect(displayed).toBe(true)
+
+describe('test for duel duo', () => {
+    test('Title shows up when page loads', async () => {
+        const title = await driver.findElement(By.id('title'))
+        const displayed = await title.isDisplayed()
+        expect(displayed).toBe(true)
+    })
+
+    test('choices display after clicking draw btn', async () =>{
+        await driver.findElement(By.id('draw')).click()
+        await driver.sleep(3000)
+        const choicesDiv = await driver.findElement(By.id('choices'))
+        const displayed = await choicesDiv.isDisplayed()
+        expect(displayed).toBe(true)
+    })
+
+    test('Add to Duo button displays the div with id of player-duo',async () => {
+        await driver.findElement(By.id('draw')).click()
+        await driver.sleep(3000)
+        await driver.findElement(By.xpath('(//button[text()="Add to duo"])[1]')).click()
+        const playerDuoDiv = await driver.findElement(By.id('Add to Duo'))
+        const displayed = await playerDuoDiv.isDisplayed()
+        expect(displayed).toBe(true)
+    })
+
 })
 
-test('check Draw button displays div with id= choices', async () =>{
-    const drawbtn = await driver.findElement(By.id('draw'))
-    const displayed = await drawbtn.isDisplayed()
-    expect(displayed).toBe(true)
-})
 
-test('check add duo btn displays with id= player duo',async () => {
-    const playerDuo = await driver.findElement(By.id('player-duo'))
-    const displayed = await playerDuo.isDisplayed()
-    expect(playerDuo).toBe(true) 
-})
+
 

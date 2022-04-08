@@ -8,13 +8,7 @@ function shuffleArray(array) {
 }
 
 module.exports = {
-    shuffleArray: () =>{
-        return shuffleArray;
-    },
-
-    Arr: () => {
-        return [5,6,7,8];
-    }
+    shuffleArray
 
     
 }

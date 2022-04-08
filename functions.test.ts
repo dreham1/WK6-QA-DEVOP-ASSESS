@@ -1,13 +1,20 @@
-const {shuffleArray, Arr} = require('./utils')
+const {shuffleArray} = require('./utils')
 
 describe('shuffleArray should', () => {
-    test('expect array to contain shuffle Array', () => {
-        expect(shuffleArray).toBe(shuffleArray)
+    test('shuffle Array should return array', () => {
+        let arr = [1,2,3,4,5]
+        let result = shuffleArray(arr)
+        expect(result).toHaveProperty('length')
     })
 
-
-    test('expect Arr to have an array of [5,6,7,8]',() => {
-       expect(Arr).toBe([5,6,7,8])
+    test('shuffle Array should return array of same lenght', () => {
+        let arr = [1,2,3,4,5]
+        let result = shuffleArray(arr)
+        expect(result.lenght).toEqual(arr.length)
     })
+
+    
+
+
     
 })

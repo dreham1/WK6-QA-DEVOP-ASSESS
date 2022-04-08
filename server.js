@@ -4,9 +4,11 @@ const app = express()
 const {bots, playerRecord} = require('./data')
 const {shuffleArray} = require('./utils')
 
+app.use(express.json())
+// top level-middleware
 app.use(express.static('public'))
 
-app.use(express.json())
+
 
 var Rollbar = require('rollbar')
 var rollbar = new Rollbar({
@@ -16,17 +18,17 @@ var rollbar = new Rollbar({
 })
 
 // record a generic message and send it to Rollbar
-rollbar.log('Hello world!')
+rollbar.log('Welcome Fighter!')
 
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/index.html'))
+    res.sendFile(path.join(__dirname, './public/index.html'))
 })
 
 
 app.get('/api/robots', (req, res) => {
     try {
-        rollbar.error('Cant get BOTS')
+        rollbar.error('tried getting BOTS but unsuccessful')
         res.status(200).send(bots)
     } catch (error) {
         console.log('ERROR GETTING BOTS', error)
@@ -36,6 +38,7 @@ app.get('/api/robots', (req, res) => {
 
 app.get('/api/robots/five', (req, res) => {
     try {
+        rollbar.info('Someone accessed all bots')
         let shuffled = shuffleArray(bots)
         let choices = shuffled.slice(0, 5)
         let compDuo = shuffled.slice(6, 8)
@@ -50,6 +53,7 @@ app.get('/api/robots/five', (req, res) => {
 app.post('/api/duel', (req, res) => {
     try {
         // getting the duos from the front end
+        rollbar.info('Duel has begun')
         let {compDuo, playerDuo} = req.body
 
         // adding up the computer player's total health and attack damage
@@ -67,11 +71,9 @@ app.post('/api/duel', (req, res) => {
         // comparing the total health to determine a winner
         if (compHealthAfterAttack > playerHealthAfterAttack) {
             playerRecord.losses++
-            rollbar.info('player lost')
             res.status(200).send('You lost!')
         } else {
             playerRecord.losses++
-            rollbar.info('player won')
             res.status(200).send('You won!')
         }
     } catch (error) {
